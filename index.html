@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NITRA | AI Student Performance Predictor</title>
+<style>
+:root{--blue:#0696d7;--red:#d3292f;--dark:#17212b;--light:#f5f8fb;--card:#fff}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#eef7fc,#fff6f6);color:var(--dark)}
+.header{background:#fff;border-bottom:4px solid var(--blue);display:flex;align-items:center;padding:14px 34px;gap:18px}.header img{width:92px;height:92px;object-fit:contain}.header h1{margin:0;font-size:25px}.header p{margin:5px 0 0;color:#66717c}
+.wrapper{max-width:1060px;margin:30px auto;padding:0 18px}.card{background:var(--card);border-radius:18px;box-shadow:0 10px 35px rgba(15,35,55,.10);padding:28px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field label{display:block;font-weight:700;margin-bottom:7px}.field input{width:100%;padding:12px 13px;border:1px solid #cdd6df;border-radius:10px;font-size:15px}.field small{display:block;color:#788692;margin-top:5px}.btn{border:0;background:linear-gradient(90deg,var(--blue),#1785ca);color:#fff;padding:13px 24px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;margin-top:20px}.result{margin-top:26px;background:#f4fbff;border-left:6px solid var(--blue);padding:20px;border-radius:12px}.result h2{margin:0 0 6px;color:#0b6e9f}.err{margin-top:20px;background:#fff0f0;border-left:6px solid var(--red);padding:15px;border-radius:10px;color:#7a2427}.footer{text-align:center;color:#6d7882;font-size:13px;margin:25px 0}.badge{display:inline-block;background:#fff;border:1px solid #dce5ec;padding:5px 9px;border-radius:999px;font-size:12px;color:#53616e}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.header{padding:12px 18px}.header img{width:72px;height:72px}.header h1{font-size:20px}}
+</style>
+</head>
+<body>
+<header class="header">
+<img src="{{ url_for('static', filename='nitra_logo.png') }}" alt="NITRA Technical Campus logo">
+<div><h1>AI-Based Student Performance Predictor</h1><p>NITRA Technical Campus • CSE (AI/ML) Mini Project</p></div>
+</header>
+<div class="wrapper">
+<div class="card">
+<div class="badge">Student: Ujjwal Srivastava • Roll No. 2508021530055</div>
+<h2>Enter Academic Indicators</h2>
+<form method="post">
+<div class="grid">
+<div class="field"><label>Attendance (%)</label><input name="attendance_pct" type="number" min="0" max="100" step="0.1" required><small>0–100</small></div>
+<div class="field"><label>Internal Marks (out of 30)</label><input name="internal_marks_30" type="number" min="0" max="30" step="0.1" required><small>0–30</small></div>
+<div class="field"><label>Assignment Marks (out of 50)</label><input name="assignment_marks_50" type="number" min="0" max="50" step="0.1" required><small>0–50</small></div>
+<div class="field"><label>Study Hours / Day</label><input name="study_hours_per_day" type="number" min="0" max="24" step="0.1" required><small>Daily focused study</small></div>
+<div class="field"><label>Previous Score (%)</label><input name="previous_score_pct" type="number" min="0" max="100" step="0.1" required><small>Previous examination performance</small></div>
+<div class="field"><label>Backlogs</label><input name="backlogs" type="number" min="0" max="20" required><small>Number of uncleared subjects</small></div>
+<div class="field"><label>Absences</label><input name="absences" type="number" min="0" max="200" required><small>Academic-period absences</small></div>
+</div>
+<button class="btn" type="submit">Predict Performance</button>
+</form>
+{% if error %}<div class="err"><strong>Input error:</strong> {{ error }}</div>{% endif %}
+{% if result %}
+<div class="result"><h2>Predicted Category: {{ result }}</h2>{% if probability is not none %}<p><strong>Model confidence for this predicted class:</strong> {{ probability }}%</p>{% endif %}<h3>Suggested actions</h3><ul>{% for item in suggestions %}<li>{{ item }}</li>{% endfor %}</ul><p><small>Note: This is an academic prototype. A prediction is not a guarantee of future marks.</small></p></div>
+{% endif %}
+</div>
+<div class="footer">NITRA Technical Campus • AI/ML Mini Project • Demonstration system</div>
+</div>
+</body></html>
